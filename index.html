@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <title>PrivateConnect Web</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brandmark">P</div>
+      <div><h1>PrivateConnect</h1><p>Host-moderated private rooms</p></div>
+      <span class="secure"><span class="dot"></span> Encrypted demo</span>
+    </header>
+
+    <section id="landing" class="panel">
+      <div class="hero">
+        <div class="eyebrow">YOUR ROOM. YOUR RULES.</div>
+        <h2>Chat privately,<br><span>on your terms.</span></h2>
+        <p>Create a room, approve who joins, and exchange encrypted text or photos with your group.</p>
+      </div>
+      <div class="forms">
+        <form id="hostForm" class="card">
+          <h3><span class="number">01</span> Create a room</h3>
+          <label>Your display name<input id="hostName" maxlength="30" placeholder="e.g. Aryan" required></label>
+          <label>Room passcode <small>(optional, but recommended)</small><input id="hostPass" type="password" minlength="6" maxlength="100" placeholder="Set a room access passcode"></label>
+          <label>Chat encryption phrase <small>(share privately with approved people)</small><input id="hostPhrase" type="password" minlength="12" maxlength="200" placeholder="At least 12 characters" required></label>
+          <button class="primary" type="submit">Create room <span>→</span></button>
+        </form>
+        <form id="joinForm" class="card">
+          <h3><span class="number">02</span> Join a room</h3>
+          <label>Your display name<input id="guestName" maxlength="30" placeholder="Choose a name" required></label>
+          <label>Room code<input id="roomCode" maxlength="10" placeholder="e.g. A1B2C3" required></label>
+          <label>Room passcode <small>(if required)</small><input id="guestPass" type="password" maxlength="100" placeholder="Room access passcode"></label>
+          <label>Chat encryption phrase<input id="guestPhrase" type="password" minlength="12" maxlength="200" placeholder="Phrase shared by the host" required></label>
+          <button class="secondary" type="submit">Request to join <span>→</span></button>
+        </form>
+      </div>
+      <p id="landingStatus" class="status" role="status"></p>
+      <div class="notice"><strong>Prototype note:</strong> This demo keeps room state in server memory. The server relays encrypted chat payloads, but room membership and connection metadata are visible to it. Do not use for sensitive conversations.</div>
+    </section>
+
+    <section id="roomView" class="room-layout hidden">
+      <aside class="sidebar panel">
+        <button id="leaveBtn" class="back">← Leave room</button>
+        <div class="room-id-label">ROOM CODE</div>
+        <div class="room-code-row"><strong id="activeCode">------</strong><button id="copyCode" class="iconbtn" title="Copy room code">Copy</button></div>
+        <p class="muted small">Share the code and encryption phrase privately. The host approves every visitor.</p>
+        <div id="hostTools" class="host-tools hidden">
+          <h3>Join requests <span id="pendingCount" class="count">0</span></h3>
+          <div id="pendingList" class="people"></div>
+        </div>
+        <h3>People <span id="memberCount" class="count">1</span></h3>
+        <div id="memberList" class="people"></div>
+      </aside>
+      <section class="chat panel">
+        <div class="chat-head">
+          <div class="avatar">#</div><div><h2 id="chatTitle">Room chat</h2><p id="chatSubtitle">Waiting for participants</p></div>
+          <span class="secure badge">🔒 Encrypted</span>
+        </div>
+        <div id="messages" class="messages">
+          <div class="empty"><div class="empty-icon">✉</div><h3>Your conversation starts here</h3><p>Approved members can send encrypted messages and photos.</p></div>
+        </div>
+        <div id="composer" class="composer">
+          <label class="attach" title="Attach a photo">＋<input id="photoInput" type="file" accept="image/*" hidden></label>
+          <textarea id="messageInput" rows="1" maxlength="3000" placeholder="Write an encrypted message…"></textarea>
+          <button id="sendBtn" class="send" title="Send message">➤</button>
+        </div>
+        <p class="compose-hint">Messages and photos are encrypted in your browser before sending.</p>
+      </section>
+    </section>
+    <footer>PrivateConnect Web · LAN-ready starter · Not a production audited messenger</footer>
+  </main>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
